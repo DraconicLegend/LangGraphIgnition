@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+
 import os
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, Annotated, Sequence
@@ -11,7 +11,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_core.tools import tool
 
-load_dotenv()
+
 
 llm = ChatOllama(
     model="llama3.1", temperature = 0) # I want to minimize hallucination - temperature = 0 makes the model output more deterministic 
@@ -48,7 +48,18 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 pages_split = text_splitter.split_documents(pages) # We now apply this to our pages
 
-persist_directory = "C:\\Users\\There\\StudioPrograms\\Agentic AI\\AI_Agents\\05_RAG"
+# persist_directory = "C:\\Users\\There\\StudioPrograms\\Agentic AI\\AI_Agents\\05_RAG"
+# persist_directory = os.path.join(os.getcwd(), "chroma_db")
+persist_directory = os.path.join(
+    os.path.expanduser("~"),
+    "LangGraphIgnition",
+    "chroma_db"
+)
+
+os.makedirs(persist_directory, exist_ok=True)
+
+os.makedirs(persist_directory, exist_ok=True)
+
 collection_name = "stock_market"
 
 # If our collection does not exist in the directory, we create using the os command
